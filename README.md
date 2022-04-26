@@ -7,8 +7,8 @@
 | ID| Description | Contributor | Date | 
 | - |:-----------:|:-----------:|:----:| 
 | 1 |Initial commit| Yoana | 22.04.2022 |  
-| 2 |Added file(s) -> a) BinaryTreePrint <br/> Edited file(s) -> a) BinaryTree <br/> Implemented -> Contains/ In order| Stefan | 22.04.2022 | 
-| 3 |
+| 3 | ***1. Added file(s) ✔️ ->*** <br/> BinaryTreePrint <br/> ***2. Edited file(s) 📝 ->*** <br/> a) BinaryTree <br/> ***3. Implemented 💪 ->*** <br/> a) Contains, In order <br/> | Stefan | 22.04.2022|
+| 3 | ***1. Added file(s) ✔️ ->*** <br/> None <br/> ***2. Edited file(s) 📝 ->*** <br/> a) BinaryTree, b) BinaryTreeNode <br/> ***3. Implemented 💪 ->*** <br/> a) Preorder, Post Order, Level Order, Height <br/> b) Changed the type of BinaryTreeNode to generic <T> | Stefan | 26.04.2022|
 
 ### Schedule:
 
