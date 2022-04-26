@@ -2,8 +2,8 @@ package com.example;
 
 public class BinaryTreeNode<T>{
     T element;
-    BinaryTreeNode leftChild;
-    BinaryTreeNode rightChild;
+    BinaryTreeNode<T> leftChild;
+    BinaryTreeNode<T> rightChild;
 
     public BinaryTreeNode(T element)
     {
@@ -19,18 +19,18 @@ public class BinaryTreeNode<T>{
     public T getElement() {
         return element;
     }
-    public void addLeftChild(BinaryTreeNode child)
+    public void addLeftChild(BinaryTreeNode<T> child)
     {
         this.leftChild = child;
     }
-    public void addRightChild(BinaryTreeNode child)
+    public void addRightChild(BinaryTreeNode<T> child)
     {
         this.rightChild = child;
     }
-    public BinaryTreeNode getLeftChild() {
+    public BinaryTreeNode<T> getLeftChild() {
         return leftChild;
     }
-    public BinaryTreeNode getRightChild() {
+    public BinaryTreeNode<T> getRightChild() {
         return rightChild;
     }
 }
