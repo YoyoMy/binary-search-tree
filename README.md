@@ -9,6 +9,7 @@
 | 1 |Initial commit| Yoana | 22.04.2022 |  
 | 2 | ***1. Added file(s) ✔️ ->*** <br/> BinaryTreePrint <br/> ***2. Edited file(s) 📝 ->*** <br/> a) BinaryTree <br/> ***3. Implemented 💪 ->*** <br/> a) Contains, In order <br/> | Stefan | 22.04.2022|
 | 3 | ***1. Added file(s) ✔️ ->*** <br/> None <br/> ***2. Edited file(s) 📝 ->*** <br/> a) BinaryTree, b) BinaryTreeNode <br/> ***3. Implemented 💪 ->*** <br/> a) Preorder, Post Order, Level Order, Height <br/> b) Changed the type of BinaryTreeNode to generic <T> | Stefan | 26.04.2022|
+| 4 | ***1. Added file(s) ✔️ ->*** <br/> BinaryTreeTest <br/> ***2. Edited file(s) 📝 ->*** <br/> a) BinarySearchTreeNode <br/> ***3. Implemented 💪 ->*** <br/> a) getElement, setElement <br/> | Stefan | 03.05.2022|
 
 ### Schedule:
 
