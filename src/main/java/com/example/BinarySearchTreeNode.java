@@ -1,21 +1,13 @@
 package com.example;
 
-public class BinarySearchTreeNode<T> extends BinaryTreeNode<T> {
+public class BinarySearchTreeNode<T extends Comparable<T>> extends BinaryTreeNode<T> implements Comparable<T>{
 
     public BinarySearchTreeNode(T element) {
         super(element);
-
-        //TODO Auto-generated constructor stub
     }
 
-    public T getElement()
-    {
-        return super.getElement();
+    @Override
+    public int compareTo(T o) {
+        return getElement().compareTo(o);
     }
-
-    public void setElement(T element)
-    {
-        super.setElement(element);
-    }
-
 }

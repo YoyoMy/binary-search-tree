@@ -1,15 +1,14 @@
 package com.example;
 
-public class BinaryTreeNode<T>{
-    T element;
-    BinaryTreeNode<T> leftChild;
-    BinaryTreeNode<T> rightChild;
+public class BinaryTreeNode<T> {
+    private T element;
+    private BinaryTreeNode<T> leftChild;
+    private BinaryTreeNode<T> rightChild;
 
-    public BinaryTreeNode(T element)
-    {
+    public BinaryTreeNode() {}
+
+    public BinaryTreeNode(T element) {
         this.element = element;
-        leftChild = null;
-        rightChild = null;
     }
 
     public void setElement(T element) {
@@ -19,18 +18,21 @@ public class BinaryTreeNode<T>{
     public T getElement() {
         return element;
     }
-    public void addLeftChild(BinaryTreeNode<T> child)
-    {
-        this.leftChild = child;
+
+    public void addLeftChild(BinaryTreeNode<T> node) {
+        leftChild = node;
     }
-    public void addRightChild(BinaryTreeNode<T> child)
-    {
-        this.rightChild = child;
+
+    public void addRightChild(BinaryTreeNode<T> node) {
+        rightChild = node;
     }
+
     public BinaryTreeNode<T> getLeftChild() {
-        return leftChild;
+        return (leftChild != null) ? leftChild : null;
     }
+
     public BinaryTreeNode<T> getRightChild() {
-        return rightChild;
+        return (rightChild != null) ? rightChild : null;
     }
+
 }

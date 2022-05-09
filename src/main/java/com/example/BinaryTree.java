@@ -1,163 +1,166 @@
 package com.example;
 
-import java.util.ArrayList;
+import com.example.BinaryTreeNode;
 
-public class BinaryTree<T extends Comparable<T>> {
+import java.util.ArrayList;
+import java.util.Stack;
+import java.util.Queue;
+import java.util.LinkedList;
+
+public class BinaryTree<T> {
     BinaryTreeNode<T> root;
+    ArrayList<BinaryTreeNode<T>> listOfNodes;
     int size;
 
     public BinaryTree(){
-        this.root = null;
+        root = null;
+        listOfNodes = new ArrayList<>();
     }
 
-    public BinaryTreeNode<T> getRoot() {
-        return root;
-    }
-    public void setRoot(BinaryTreeNode<T> root) {
+    public BinaryTree(BinaryTreeNode<T> root){
         this.root = root;
     }
-    public boolean isEmpty()
-    {
-        return size==0;
+
+    public BinaryTreeNode<T> getRoot(){
+        return root;
     }
 
-    public int size()
-    {
+    public void setRoot(BinaryTreeNode<T> node){
+        root = node;
+    }
+
+    public boolean isEmpty(){
+        return size <= 0;
+    }
+
+    public int size(){
         return size;
     }
-    public boolean contains(T element) {
-        return containsNodeRecursive(root, element);
-    }
 
-    /** Contains */
-
-    private boolean containsNodeRecursive(BinaryTreeNode<T> current, T value) {
-        if (current == null) {
-            return false;
+    public boolean contains(T element){
+        listOfNodes = this.inOrder();
+        for (BinaryTreeNode<T> n : listOfNodes) {
+            if (n.getElement().equals(element)) return true;
         }
-        if (value == current.getElement()) {
-            return true;
+
+        return false;
+    }
+
+    // iterative inorder
+    public ArrayList<BinaryTreeNode<T>> inOrder() {
+        Stack<BinaryTreeNode<T>> stack = new Stack<>();
+        while (!stack.isEmpty() || root != null) {
+            if (root != null) {
+                stack.push(root);
+                root = root.getLeftChild();
+            } else {
+                root = stack.pop();
+                listOfNodes.add(root);
+                root = root.getRightChild();
+            }
         }
-        return value.compareTo((T) current.getElement()) == -1
-            ? containsNodeRecursive(current.getLeftChild(), value)
-            : containsNodeRecursive(current.getRightChild(), value);
+
+        return listOfNodes;
     }
 
-    /** In order */
-
-    public ArrayList<T> inOrder() {
-        ArrayList<T> result = new ArrayList<>();
-        orderInorder(root, result);
-        return result;
-    }
-
-    void orderInorder(BinaryTreeNode<T> node, ArrayList<T> result) {
-        if (node == null)
-            return;
-        orderInorder(node.getLeftChild(), result);
-        result.add((T) node.getElement());
-        orderInorder(node.getRightChild(), result);
-    }
-
-    public ArrayList<BinaryTreeNode<T>> inOrderNode() {
-        ArrayList<BinaryTreeNode<T>> result = new ArrayList();
-        orderInorderNode(root, result);
-        return result;
-    }
-    void orderInorderNode(BinaryTreeNode<T> node, ArrayList<BinaryTreeNode<T>> result) {
-        if (node == null)
-            return;
-        orderInorderNode(node.getLeftChild(), result);
-        result.add(node);
-        orderInorderNode(node.getRightChild(), result);
-    }
-
-    /** Preorder */
-    public ArrayList<T> preorder() {
-        ArrayList<T> result = new ArrayList<>();
-        orderPreorder(root, result);
-        return result;
-    }
-
-    void orderPreorder(BinaryTreeNode<T> node, ArrayList<T> result) {
-        if (node == null)
-            return;
-        result.add((T) node.getElement());
-        orderPreorder(node.getLeftChild(), result);
-        orderPreorder(node.getRightChild(), result);
-    }
-    /** Post Order*/
-
-    public ArrayList<T> postorder() {
-        ArrayList<T> result = new ArrayList<>();
-        orderPostorder(root, result);
-        return result;
-    }
-
-    void orderPostorder(BinaryTreeNode<T> node, ArrayList<T> result) {
-        if (node == null)
-            return;
-
-        orderPostorder(node.getLeftChild(), result);
-        orderPostorder(node.getRightChild(), result);
-        result.add(node.getElement());
-    }
-
-    /** Level Order */
-
-    public ArrayList<T> levelOrder() {
-        ArrayList<T> result = new ArrayList<>();
-        orderLevelorder(result);
-        return result;
-    }
-
-    private void orderLevelorder(ArrayList<T> result) {
-        int h = heightLevelOrder(root);
-        int i;
-        for (i = 1; i <= h; i++)
-            printGivenLevel(root, i, result);
-    }
-
-    private void printGivenLevel(BinaryTreeNode<T> root, int level, ArrayList<T> result) {
-        if (root == null)
-            return;
-        if (level == 1)
-            result.add((T) root.getElement());
-        else if (level > 1) {
-            printGivenLevel(root.getLeftChild(), level - 1, result);
-            printGivenLevel(root.getRightChild(), level - 1, result);
+    public ArrayList<BinaryTreeNode<T>> preOrder() {
+        if(root == null) {
+            return null;
         }
-    }
+        Stack<BinaryTreeNode<T>> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            BinaryTreeNode<T> n = stack.pop();
 
-    /** Height */
-
-    public int height() {
-        return height(root);
-    }
-
-    private int height(BinaryTreeNode<T> root) {
-        if (root == null)
-            return -1;
-        else {
-            int lHeight = height(root.getLeftChild());
-            int rHeight = height(root.getRightChild());
-
-            if (lHeight > rHeight)
-                return (lHeight + 1);
-            else return (rHeight + 1);
+            if(n.getRightChild() != null){
+                stack.push(n.getRightChild());
+            }
+            if(n.getLeftChild() != null){
+                stack.push(n.getLeftChild());
+            }
         }
+
+        return listOfNodes;
     }
 
-    private int heightLevelOrder(BinaryTreeNode<T> root) {
-        if (root == null)
+    public ArrayList<BinaryTreeNode<T>> postOrder() {
+        Stack<BinaryTreeNode<T>> stack = new Stack<>();
+
+        if (root == null) {
+            return listOfNodes;
+        }
+
+        stack.push(root);
+        BinaryTreeNode<T> prev = null;
+
+        while (!stack.isEmpty()) {
+            BinaryTreeNode<T> current = stack.peek();
+
+            if (prev == null || prev.getLeftChild() == current || prev.getRightChild() == current) {
+                if (current.getLeftChild() != null) {
+                    stack.push(current.getLeftChild());
+                } else if (current.getRightChild() != null) {
+                    stack.push(current.getRightChild());
+                } else {
+                    stack.pop();
+                    listOfNodes.add(current);
+                }
+            }
+
+            else if (current.getLeftChild() == prev) {
+                if (current.getRightChild() != null) {
+                    stack.push(current.getRightChild());
+                } else {
+                    stack.pop();
+                    listOfNodes.add(current);
+                }
+            } else if (current.getRightChild() == prev) {
+                stack.pop();
+                listOfNodes.add(current);
+            }
+
+            prev = current;
+        }
+
+        return listOfNodes;
+    }
+
+    public ArrayList<BinaryTreeNode<T>> levelOrder() {
+        Queue<BinaryTreeNode<T>> q = new LinkedList<>();
+        q.add(root);
+
+        while (!q.isEmpty()) {
+            BinaryTreeNode<T> temp = q.poll();
+            listOfNodes.add(temp);
+            if (temp.getLeftChild() != null) {
+                q.add(temp.getLeftChild());
+            }
+            if (temp.getRightChild() != null) {
+                q.add(temp.getRightChild());
+            }
+        }
+
+        return listOfNodes;
+    }
+
+    public int height(BinaryTreeNode<T> node){
+        if(root == null){
             return 0;
+        }
         else {
-            int lHeight = heightLevelOrder(root.getLeftChild());
-            int rHeight = heightLevelOrder(root.getRightChild());
+            int leftHeight = 0, rightHeight = 0;
 
-            if (lHeight > rHeight)
-                return (lHeight + 1);
-            else return (rHeight + 1);
+            if(node.getLeftChild() != null){
+                leftHeight = height(node.getLeftChild());
+            }
+            if(node.getRightChild() != null){
+                rightHeight = height(node.getRightChild());
+            }
+
+            int max = (leftHeight > rightHeight) ? leftHeight : rightHeight;
+
+            return (max + 1);
         }
     }
+
 }

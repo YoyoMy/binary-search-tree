@@ -1,135 +1,193 @@
 package com.example;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import java.util.function.BooleanSupplier;
-import java.util.ArrayList;
-
-import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
-class BinaryTreeTest {
+import java.util.ArrayList;
 
-  BinaryTree binaryTree;
-  BinaryTreePrint binaryTreePrint;
+
+public class BinaryTreeTest {
+  private ArrayList<BinaryTreeNode<Integer>> list = new ArrayList<>();
+  private BinaryTree<Integer> tree = new BinaryTree<>();
+  private BinarySearchTree<Integer> bst;
+  private BinarySearchTree<Integer> bst2;
+  private BinaryTreePrint printTree = new BinaryTreePrint();
 
   @BeforeEach
-  void setUp() {
+  void beforeEach() {
+    System.out.println("--> setUp()");
+    tree.setRoot(new BinaryTreeNode<>(10));
+    tree.getRoot().addLeftChild(new BinaryTreeNode<>(7));
+    tree.getRoot().getLeftChild().addLeftChild(new BinaryTreeNode<>(1));
+    tree.getRoot().getLeftChild().getLeftChild().addRightChild(new BinaryTreeNode<>(2));
+    tree.getRoot().getLeftChild().getLeftChild().getRightChild().addRightChild(new BinaryTreeNode<>(3));
+    tree.getRoot().getLeftChild().addRightChild(new BinaryTreeNode<>(9));
+    tree.getRoot().getLeftChild().getRightChild().addLeftChild(new BinaryTreeNode<>(8));
+    tree.getRoot().addRightChild(new BinaryTreeNode<>(25));
+    tree.getRoot().getRightChild().addRightChild(new BinaryTreeNode<>(27));
+    tree.getRoot().getRightChild().addLeftChild(new BinaryTreeNode<>(15));
+    tree.getRoot().getRightChild().getLeftChild().addLeftChild(new BinaryTreeNode<>(13));
+    tree.getRoot().getRightChild().getLeftChild().addRightChild(new BinaryTreeNode<>(21));
+    bst = new BinarySearchTree<>();
+    bst.insert(10);
+    bst.insert(7);
+    bst.insert(1);
+    bst.insert(9);
+    bst.insert(2);
+    bst.insert(3);
+    bst.insert(25);
+    bst.insert(15);
+    bst.insert(27);
+    bst.insert(13);
+    bst.insert(21);
+    bst.insert(16);
+    bst.insert(22);
+    bst.insert(18);
+    bst2 = new BinarySearchTree<>();
+    bst2.insert(10);
+    bst2.insert(7);
+    bst2.insert(4);
+    bst2.insert(8);
+    bst2.insert(2);
+    bst2.insert(13);
+  }
 
-    binaryTree = new BinaryTree();
-    binaryTreePrint = new BinaryTreePrint();
+  @Test
+  void inOrderTest() {
+    list.add(new BinaryTreeNode<>(1));
+    list.add(new BinaryTreeNode<>(2));
+    list.add(new BinaryTreeNode<>(3));
+    list.add(new BinaryTreeNode<>(7));
+    list.add(new BinaryTreeNode<>(8));
+    list.add(new BinaryTreeNode<>(9));
+    list.add(new BinaryTreeNode<>(10));
+    list.add(new BinaryTreeNode<>(13));
+    list.add(new BinaryTreeNode<>(15));
+    list.add(new BinaryTreeNode<>(21));
+    list.add(new BinaryTreeNode<>(25));
+    list.add(new BinaryTreeNode<>(27));
 
-    binaryTree.root = new BinaryTreeNode(1);
-    binaryTree.root.leftChild = new BinaryTreeNode(2);
-    binaryTree.root.rightChild = new BinaryTreeNode(3);
-    binaryTree.root.leftChild.leftChild = new BinaryTreeNode(4);
-    binaryTree.root.leftChild.rightChild = new BinaryTreeNode(5);
-    binaryTree.root.rightChild.leftChild = new BinaryTreeNode(6);
-    binaryTree.root.rightChild.rightChild = new BinaryTreeNode(7);
+    ArrayList<BinaryTreeNode<Integer>> temp = tree.inOrder();
 
+    for (int i = 0; i < temp.size(); i++) {
+      assertEquals(list.get(i).getElement(), temp.get(i).getElement());
+    }
+  }
+
+  @Test
+  void preOrderTest() {
+    list.add(new BinaryTreeNode<>(10));
+    list.add(new BinaryTreeNode<>(7));
+    list.add(new BinaryTreeNode<>(1));
+    list.add(new BinaryTreeNode<>(2));
+    list.add(new BinaryTreeNode<>(3));
+    list.add(new BinaryTreeNode<>(9));
+    list.add(new BinaryTreeNode<>(8));
+    list.add(new BinaryTreeNode<>(25));
+    list.add(new BinaryTreeNode<>(15));
+    list.add(new BinaryTreeNode<>(13));
+    list.add(new BinaryTreeNode<>(21));
+    list.add(new BinaryTreeNode<>(27));
+    ArrayList<BinaryTreeNode<Integer>> temp = tree.preOrder();
+
+    for (int i = 0; i < temp.size(); i++) {
+      assertEquals(list.get(i).getElement(), temp.get(i).getElement());
+    }
+
+  }
+
+  @Test
+  void postOrderTest() {
+    list.add(new BinaryTreeNode<>(3));
+    list.add(new BinaryTreeNode<>(2));
+    list.add(new BinaryTreeNode<>(1));
+    list.add(new BinaryTreeNode<>(8));
+    list.add(new BinaryTreeNode<>(9));
+    list.add(new BinaryTreeNode<>(7));
+    list.add(new BinaryTreeNode<>(13));
+    list.add(new BinaryTreeNode<>(21));
+    list.add(new BinaryTreeNode<>(15));
+    list.add(new BinaryTreeNode<>(27));
+    list.add(new BinaryTreeNode<>(25));
+    list.add(new BinaryTreeNode<>(10));
+    ArrayList<BinaryTreeNode<Integer>> temp = tree.postOrder();
+
+    for (int i = 0; i < temp.size(); i++) {
+      assertEquals(list.get(i).getElement(), temp.get(i).getElement());
+    }
+  }
+
+  @Test
+  void levelOrderTest() {
+    list.add(new BinaryTreeNode<>(10));
+    list.add(new BinaryTreeNode<>(7));
+    list.add(new BinaryTreeNode<>(25));
+    list.add(new BinaryTreeNode<>(1));
+    list.add(new BinaryTreeNode<>(9));
+    list.add(new BinaryTreeNode<>(15));
+    list.add(new BinaryTreeNode<>(27));
+    list.add(new BinaryTreeNode<>(2));
+    list.add(new BinaryTreeNode<>(8));
+    list.add(new BinaryTreeNode<>(13));
+    list.add(new BinaryTreeNode<>(21));
+    list.add(new BinaryTreeNode<>(3));
+    ArrayList<BinaryTreeNode<Integer>> temp = tree.levelOrder();
+
+    for (int i = 0; i < temp.size(); i++) {
+      assertEquals(list.get(i).getElement(), temp.get(i).getElement());
+    }
+  }
+
+  @Test
+  void heightTest() {
+    int temp = tree.height(tree.getRoot());
+    System.out.println(tree.getRoot());
+    assertEquals(5 , temp);
+  }
+
+  @Test
+  void containsTest() {
+    tree.setRoot(new BinaryTreeNode<>(10));
+    tree.getRoot().addLeftChild(new BinaryTreeNode<>(15));
+    assertTrue(tree.contains(15));
+  }
+
+  @Test
+  void findMinTest() {
+    assertEquals(1, bst.findMin());
+  }
+
+  @Test
+  void findMaxTest() {
+    assertEquals(27, bst.findMax());
+  }
+
+  @Test
+  void insertTest() {
+    printTree.printTree(bst.getRoot());
+  }
+
+  @Test
+  void removeTest() {
+    bst.removeElement(1);
+    bst.removeElement(15);
+    bst.removeElement(10);
+    printTree.printTree(bst.getRoot());
+  }
+
+  @Test
+  void reBalance() {
+    bst2.reBalance();
+    printTree.printTree(bst2.getRoot());
   }
 
   @AfterEach
-  void tearDown() {
-  }
-
-  @Test
-  void isEmpty() {
-    binaryTreePrint.printTree(binaryTree.root);
-    assertFalse(binaryTree.isEmpty());
-
-  }
-
-  @Test
-  void size() {
-    assertEquals( 7,binaryTree.size());
-  }
-
-  @Test
-  void contains() {
-
-    binaryTree.setRoot(new BinaryTreeNode(2));
-    assertTrue(binaryTree.contains(2));
-
-  }
-
-  @Test
-  void inOrder() {
-
-    binaryTreePrint.printTree(binaryTree.root);
-
-    ArrayList<Integer> expectedResult = new ArrayList<>();
-    expectedResult.add(4);
-    expectedResult.add(2);
-    expectedResult.add(5);
-    expectedResult.add(1);
-    expectedResult.add(6);
-    expectedResult.add(3);
-    expectedResult.add(7);
-
-    assertEquals(expectedResult,binaryTree.inOrder());
-
-  }
-
-  @Test
-  void preorder() {
-    binaryTreePrint.printTree(binaryTree.root);
-
-    ArrayList<Integer> expectedResult = new ArrayList<>();
-    expectedResult.add(1);
-    expectedResult.add(2);
-    expectedResult.add(4);
-    expectedResult.add(5);
-    expectedResult.add(3);
-    expectedResult.add(6);
-    expectedResult.add(7);
-
-
-    assertEquals(expectedResult,binaryTree.preorder());
-
-  }
-
-  @Test
-  void postorder() {
-    binaryTreePrint.printTree(binaryTree.root);
-
-    ArrayList<Integer> expectedResult = new ArrayList<>();
-    expectedResult.add(4);
-    expectedResult.add(5);
-    expectedResult.add(2);
-    expectedResult.add(6);
-    expectedResult.add(7);
-    expectedResult.add(3);
-    expectedResult.add(1);
-
-
-    assertEquals(expectedResult,binaryTree.postorder());
-  }
-
-  @Test
-  void levelOrder() {
-
-    binaryTreePrint.printTree(binaryTree.root);
-    ArrayList<Integer> expectedResult = new ArrayList<>();
-    expectedResult.add(1);
-    expectedResult.add(2);
-    expectedResult.add(3);
-    expectedResult.add(4);
-    expectedResult.add(5);
-    expectedResult.add(6);
-    expectedResult.add(7);
-
-
-    assertEquals(expectedResult,binaryTree.levelOrder());
-
-  }
-
-  @Test
-  void height() {
-
-    binaryTreePrint.printTree(binaryTree.root);
-
-    assertEquals(2,binaryTree.height());
-
+  void afterEach() {
+    list.clear();
+    bst = null;
+    System.out.println("<-- tearDown()");
   }
 }
